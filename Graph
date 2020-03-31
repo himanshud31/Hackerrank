@@ -1,1 +1,84 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define op(x) cin>>x
+#define space cout<<" "
+#define REP(i,s,e) for(int i=s;i<=e;i++)
+#define next cout<<"\n"
+#define pv(x) push_back(x)
+#define p pair<int,int>
+int bfs(vector<int> *adj)
+{
+	queue<p> q;
+	q.push(make_pair(1,0));
+	vector<bool> visited(101,false);
+	visited[q.front().first]=true;
+	int ans=INT_MAX;
+	while(!q.empty())
+	{
+		p temp=q.front();
+		q.pop();
+		//cout<<"--"<<temp.first<<" "<<temp.second;next;
+		
+		if(temp.first==100)
+		{
+			if(ans>temp.second)
+			ans=temp.second;
+		}
+		
+		for(int i=1;i<=6;i++)
+		{
+			if(temp.first+i>100)
+			continue;
+			if(!visited[temp.first+i]&&adj[temp.first+i].size()!=0)
+			{
+				q.push(make_pair(adj[temp.first+i][0],temp.second+1));
+				visited[temp.first+i]=true;
+			}
+			else if(!visited[temp.first+i])
+			{	
+				q.push(make_pair(temp.first+i,temp.second+1));
+				visited[temp.first+i]=true;
+			}
+		}
+	}
+	if(ans==INT_MAX)
+	return -1;
+	return ans;
+}
 
+void solve()
+{
+	int n;
+	op(n);
+	vector<int> adj[101];
+	REP(i,1,n)
+	{
+		int f,s;
+		op(f);
+		op(s);
+		//cout<<f<<" "<<s;
+		adj[f].pv(s);
+	}
+
+	int m;
+	op(m);
+	REP(i,1,m)
+	{
+		int f,s;
+		op(f);
+		op(s);
+		adj[f].pv(s);
+	}
+
+	cout<<bfs(adj);next;
+}
+
+int main()
+{
+	int t;
+	op(t);
+	while(t--)
+	{
+		solve();
+	}
+}
